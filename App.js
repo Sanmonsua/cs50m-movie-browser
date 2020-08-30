@@ -7,20 +7,42 @@ export default class App extends React.Component {
   state = {
     results : {},
     search : 'star',
+    page : 1,
   }
 
   renderItem = ({item}) =>(
     <MovieCard item={item}/>
   )
 
-  componentWillMount = () =>{
+  componentDidMount = () =>{
     const request = new XMLHttpRequest();
-    request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}`)
+    request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}&page=${this.state.page}`)
 
     request.onload = () => {
         this.setState(
       { results : JSON.parse(request.responseText) }
-    )
+    )}
+
+    request.send()
+  }
+
+  loadNextPage = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}&page=${this.state.page+1}`)
+
+    request.onload = () => {
+        const newData = JSON.parse(request.responseText).Search
+        this.setState(prevState=> (
+          {
+            results : {
+              ... prevState.results, 
+              Search : prevState.results.Search.concat(newData)
+            },
+            page : prevState.page+1,
+
+          })
+        )
+        console.log(this.state.results)
     }
 
     request.send()
@@ -29,12 +51,15 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Showing results for : {this.state.search}</Text>
+        <Text style={styles.title}>
+          Showing results for : {this.state.search}
+        </Text>
         <FlatList
           style={styles.flatList}
           data={this.state.results.Search}
           renderItem={this.renderItem}
           keyExtractor={item => item.imdbID}
+          onEndReached={() => this.loadNextPage()}
         />
       </View>
     );
