@@ -1,22 +1,38 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Dimensions } from 'react-native';
 import MovieCard from './MovieCard'
-import { search } from './mockData'
 
 export default class App extends React.Component {
   
+  state = {
+    results : {},
+    search : 'star',
+  }
+
   renderItem = ({item}) =>(
     <MovieCard item={item}/>
   )
 
+  componentWillMount = () =>{
+    const request = new XMLHttpRequest();
+    request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}`)
+
+    request.onload = () => {
+        this.setState(
+      { results : JSON.parse(request.responseText) }
+    )
+    }
+
+    request.send()
+  }
+
   render() {
-    console.log(search.Search)
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Showing results for : s</Text>
+        <Text style={styles.title}>Showing results for : {this.state.search}</Text>
         <FlatList
           style={styles.flatList}
-          data={search.Search}
+          data={this.state.results.Search}
           renderItem={this.renderItem}
           keyExtractor={item => item.imdbID}
         />
