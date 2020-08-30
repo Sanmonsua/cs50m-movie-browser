@@ -31,18 +31,19 @@ export default class App extends React.Component {
     request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}&page=${this.state.page+1}`)
 
     request.onload = () => {
-        const newData = JSON.parse(request.responseText).Search
-        this.setState(prevState=> (
-          {
-            results : {
-              ... prevState.results, 
-              Search : prevState.results.Search.concat(newData)
-            },
-            page : prevState.page+1,
-
-          })
-        )
-        console.log(this.state.results)
+        const data = JSON.parse(request.responseText)
+        if (data.Response === "True"){
+          this.setState(prevState=> (
+            {
+              results : {
+                ... prevState.results, 
+                Search : prevState.results.Search.concat(data.Search)
+              },
+              page : prevState.page + 1,
+  
+            }))
+        }
+        
     }
 
     request.send()
@@ -52,7 +53,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Showing results for : {this.state.search}
+          {this.state.results.totalResults} results for "{this.state.search}"
         </Text>
         <FlatList
           style={styles.flatList}
