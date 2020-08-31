@@ -19,9 +19,13 @@ export default class App extends React.Component {
     request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&s=${this.state.search}&page=${this.state.page}`)
 
     request.onload = () => {
-        this.setState(
-      { results : JSON.parse(request.responseText) }
-    )}
+      const data = JSON.parse(request.responseText)
+      if (data.Response === "True"){
+        this.setState({ 
+          results : data,  
+        })
+      }
+    }
 
     request.send()
   }
@@ -42,8 +46,7 @@ export default class App extends React.Component {
               page : prevState.page + 1,
   
             }))
-        }
-        
+        }   
     }
 
     request.send()
