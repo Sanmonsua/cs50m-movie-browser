@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Dimensions, TextInput, TouchableOpacity } from 'react-native';
 import MovieCard from './MovieCard'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const colorPalettes = [
   ["#84c0f0", "#83a4f8"], 
@@ -11,7 +12,34 @@ const colorPalettes = [
   ["#f06591", "#e45e7a"],
 ]
 
-export default class App extends React.Component {
+export default class SearchScreen extends React.Component{
+  render() {
+    return (
+      <LinearGradient style={styles.container} colors={colorPalettes[Math.floor(Math.random()*6)]}>
+        <Text style={styles.searchTitle}>
+          Discover tones of movies and series
+        </Text>
+        <TextInput 
+          style={styles.searchInput}
+          placeholder = "Search by title, imdb or year"
+          placeholderTextColor = "#eee"
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <Text
+            style={{
+              fontSize : 18,
+              fontWeight : 'bold',
+            }}
+          >
+            Search
+          </Text>
+        </TouchableOpacity>
+      </LinearGradient>
+    )
+  }
+}
+
+class ResultsScreen extends React.Component {
   
   state = {
     results : {},
@@ -90,7 +118,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop : 40,
+    paddingVertical : 40,
+    paddingHorizontal : 20,
     width :  Dimensions.get('window').width,
   },
   flatList: {
@@ -102,5 +131,28 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'flex-start',
     margin : 10,
+  },
+  searchTitle : {
+    fontSize : 35,
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    margin : 10,
+    color: 'white',
+  },
+  searchInput : {
+    width : "90%",
+    color : 'white',
+    borderBottomColor : 'white',
+    borderBottomWidth : 2,
+    marginVertical : 40,
+    fontSize : 20,
+    paddingVertical : 10,
+  },
+  searchButton : {
+    borderRadius : 25,
+    backgroundColor: 'white',
+    paddingHorizontal : 20,
+    paddingVertical : 10,
+    justifyContent : 'flex-end',
   }
 });
