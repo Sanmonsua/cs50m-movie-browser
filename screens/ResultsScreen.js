@@ -13,7 +13,8 @@ export default class ResultsScreen extends React.Component {
   
     renderItem = ({item, index}) =>(
       <MovieCard 
-        item={item} 
+        item={item}
+        navigation={this.props.navigation}
         colors={
           colorPalettes[index % colorPalettes.length]
         }

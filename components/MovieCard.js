@@ -3,7 +3,13 @@ import { View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default MovieCard = (props) =>(
-    <TouchableOpacity>
+    <TouchableOpacity 
+        onPress={ () => {
+            props.navigation.navigate('MovieScreen', {
+                colors : props.colors,
+                imdbID : props.item.imdbID,
+            })
+            }} >
         <LinearGradient colors={props.colors} style={styles.container}>
             <View>
                 <Image

@@ -9,7 +9,7 @@ export default class MovieScreen extends React.Component {
     render() {
         return (
             <ScrollView style={{flex:1}}>
-                <LinearGradient colors={colorPalettes[Math.floor(Math.random()*6)]} style={styles.container}>
+                <LinearGradient colors={this.props.route.params.colors} style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Image
                         style={styles.poster}
