@@ -4,6 +4,8 @@ search for movies included in the [Open Movie Database](http://www.omdbapi.com/)
 and view additional information about any movies they select. Check out the
 [staff solution](#staff-solution) for a working version.
 
+![](video.gif)
+
 ## Requirements
 - You may not import libraries other than the below:
   - `expo`
