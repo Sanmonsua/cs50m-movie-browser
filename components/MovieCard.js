@@ -1,20 +1,23 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet} from 'react-native'
+import { View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default MovieCard = (props) =>(
-    <LinearGradient colors={props.colors} style={styles.container}>
-        <View>
-            <Image
-                style={styles.poster}
-                source={ { uri : props.item.Poster }}
-            />
-        </View>
-        <View style={styles.titleHolder}>
-            <Text style={styles.title}>{props.item.Title}</Text>
-            <Text style={styles.type}>{props.item.Type.charAt(0).toUpperCase() + props.item.Type.slice(1)}</Text>
-        </View>
-    </LinearGradient>
+    <TouchableOpacity>
+        <LinearGradient colors={props.colors} style={styles.container}>
+            <View>
+                <Image
+                    style={styles.poster}
+                    source={ { uri : props.item.Poster }}
+                />
+            </View>
+            <View style={styles.titleHolder}>
+                <Text style={styles.title}>{props.item.Title}</Text>
+                <Text style={styles.type}>{props.item.Type.charAt(0).toUpperCase() + props.item.Type.slice(1)}</Text>
+            </View>
+        </LinearGradient>
+    </TouchableOpacity>
+    
 )
 
 const styles = StyleSheet.create({

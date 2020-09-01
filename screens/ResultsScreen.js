@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, FlatList, StyleSheet, Dimensions  } from 'react-native'
 import colorPalettes from '../colors'
-import MovieCard from './MovieCard'
+import MovieCard from '../components/MovieCard'
 
 
 export default class ResultsScreen extends React.Component {
