@@ -1,26 +1,56 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
-import { movie } from '../mockData'
 import { LinearGradient } from 'expo-linear-gradient';
-import colorPalettes from '../colors'
 
 
 export default class MovieScreen extends React.Component {
+    
+    state = {
+        loaded : false,
+    }
+
+    componentDidMount(){
+        const request = new XMLHttpRequest()
+        request.open('GET', `https://www.omdbapi.com/?apikey=55c7fd4a&i=${this.props.route.params.imdbID}`)
+  
+        request.onload = () => {
+            const data = JSON.parse(request.responseText)
+            if (data.Response === "True"){
+                this.setState({
+                    poster : data.Poster,
+                    title : data.Title,
+                    director : data.Director,
+                    runtime : data.Runtime,
+                    language : data.Language.split(',').length > 1 ? data.Language.split(',')[0] : data.Language,
+                    year : data.Year,
+                    actors : data.Actors,
+                    plot : data.Plot,
+                    imdbRating : data.imdbRating,
+                    metascore : data.Metascore,
+                    loaded : true,
+                })
+            }
+        }
+    
+        request.send()
+    }
+
     render() {
+        if (!this.state.loaded) return <View></View>
         return (
             <ScrollView style={{flex:1}}>
                 <LinearGradient colors={this.props.route.params.colors} style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Image
                         style={styles.poster}
-                        source={ { uri : movie.Poster }}
+                        source={ { uri : this.state.poster }}
                     />
                     <View>
                         <Text style={styles.title}>
-                            {movie.Title}
+                            {this.state.title}
                         </Text>
                         <Text style={styles.text}>
-                            by {movie.Director}
+                            by {this.state.director}
                         </Text>
                     </View>
                     
@@ -28,35 +58,35 @@ export default class MovieScreen extends React.Component {
                 <View style={{... styles.rowContainer, justifyContent:'space-between'}}>
                     <View >
                         <Text style={{... styles.text, fontWeight:'bold'}}>Length</Text>
-                        <Text style={styles.subtitle}>{movie.Runtime}</Text>
+                        <Text style={styles.subtitle}>{this.state.runtime}</Text>
                     </View>
                     <View >
                         <Text style={{... styles.text, fontWeight:'bold'}}>Language</Text>
-                        <Text style={styles.subtitle}>{movie.Language}</Text>
+                        <Text style={styles.subtitle}>{this.state.language}</Text>
                     </View>
                     <View >
                         <Text style={{... styles.text, fontWeight:'bold'}}>Year</Text>
-                        <Text style={styles.subtitle}>{movie.Year}</Text>
+                        <Text style={styles.subtitle}>{this.state.year}</Text>
                     </View>
                 </View>
                 <View style={styles.overview}>
                     <Text style={styles.subtitle}>Overview</Text>
-                    <Text style={styles.text}>{movie.Plot}</Text>
+                    <Text style={styles.text}>{this.state.plot}</Text>
                     
                 </View>
                 <View style={styles.overview}>
                     <Text style={styles.subtitle}>Cast</Text>
-                    <Text style={styles.text}>{movie.Actors}</Text>
+                    <Text style={styles.text}>{this.state.actors}</Text>
                     
                 </View>
                 <View style={styles.rowContainer}>
                     <View style={{alignItems: 'center'}}>
                         <Text style={{... styles.text, fontWeight:'bold'}}>IMDb</Text>
-                        <Text style={styles.title}>{movie.imdbRating} / 10</Text>
+                        <Text style={styles.title}>{this.state.imdbRating} / 10</Text>
                     </View>
                     <View style={{alignItems: 'center'}}>
                         <Text style={{... styles.text, fontWeight:'bold'}}>Metacritic</Text>
-                        <Text style={styles.title}>{movie.Metascore} / 100</Text>
+                        <Text style={styles.title}>{this.state.metascore} / 100</Text>
                     </View>
                 </View>
                 
@@ -79,7 +109,7 @@ const styles = StyleSheet.create({
     rowContainer : {
         flexDirection : 'row',
         justifyContent : 'space-around',
-        marginTop : 40,
+        marginVertical : 20,
     },
     titleContainer : {
         flexDirection : 'row',

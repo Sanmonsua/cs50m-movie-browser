@@ -25,8 +25,19 @@ export default class App extends React.Component {
               headerTitle : route.params.results + " results for '" + route.params.search + "'" 
             })}
           />
-          <Stack.Screen  options={({route}) => ({headerTitle:'', headerStyle:{backgroundColor:route.params.colors[0], elevation: 0,
-shadowOpacity: 0}})} name="MovieScreen" component={MovieScreen}/>
+          <Stack.Screen  
+            options={
+              ({route}) => ({
+                headerTitle:'', 
+                headerStyle:{
+                  backgroundColor:route.params.colors[0], 
+                  elevation: 0,
+                  shadowOpacity: 0
+                }
+              })
+            } 
+            name="MovieScreen" 
+            component={MovieScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
     )
