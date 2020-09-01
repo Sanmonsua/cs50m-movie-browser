@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "project2",
-    "slug": "project2",
+    "name": "CS50M Project 2 - Movie Browser",
+    "slug": "cs50m-project-2-movie-browser",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "For this project, I implemented a movie browser. It will allow users to search for movies included in the [Open Movie Database](http://www.omdbapi.com/) and view additional information about any movies they select.",
+    "githubUrl": "https://github.com/Sanmonsua/cs50m-movie-browser"
   }
 }
